@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  db:
+    image: mariadb
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "HgbPL5AJMp9GZFaG"
+      MYSQL_DATABASE : "toy"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./init/:/docker-entrypoint-initdb.d/
+      - ./mysql/:/var/lib/mysql
+
+  front:
+    image: jusk2/hawaiian-calculator-web
+    ports: 
+      - 8000:5000
+    restart: always
+  
+  backend:
+    image: jusk2/hawaiian-calculator-api
+    ports: 
+      - 8100:8080
+    restart: always
+    depends_on: 
+      - db
