@@ -1,4 +1,4 @@
-# Calculator API
+# calculator api
 
 Project made by Hawaiian Pizza. 
 
