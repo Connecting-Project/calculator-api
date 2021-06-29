@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.skel</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>calculator-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>calculator-api</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

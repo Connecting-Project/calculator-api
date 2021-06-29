@@ -1,4 +1,4 @@
-package com.hawaiianpizza.cal.Service;
+package com.hawaiianpizza.cal.service;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -6,16 +6,15 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hawaiianpizza.cal.Model.Career;
-import com.hawaiianpizza.cal.Model.Salary;
-import com.hawaiianpizza.cal.Model.SalaryResponse;
-import com.hawaiianpizza.cal.Model.TaxTable;
+import com.hawaiianpizza.cal.model.Career;
+import com.hawaiianpizza.cal.model.Salary;
+import com.hawaiianpizza.cal.model.SalaryResponse;
+import com.hawaiianpizza.cal.model.TaxTable;
 import com.hawaiianpizza.cal.dao.taxtableDao;
 
 @Service
 public class CalService {
 
-	// 濡쒓렇�씤�떆
 	@Autowired
 	taxtableDao taxtabledao;
 
@@ -43,8 +42,6 @@ public class CalService {
 
 	public long campaign_day(Date start, int type) {
 		Date now = new Date();
-		System.out.println(now);
-		System.out.println(start);
 		long diffInMillies = Math.abs(now.getTime() - start.getTime());
 		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
@@ -56,7 +53,6 @@ public class CalService {
 		for (int i = 0; i < career.length; i++) {
 			ret += (career[i].getEndYear() - career[i].getStartYear()) * 12 + career[i].getEndMonth()
 					- career[i].getStartMonth();
-			System.out.println(ret);
 		}
 		return ret;
 	};
@@ -97,9 +93,7 @@ public class CalService {
 				t = taxtabledao.findByNum(money / 1000 - (money / 1000 % 10));
 			} else
 				t = taxtabledao.findByNum(money / 1000 - (money / 1000 % 20));
-			System.out.println("test");
-			System.out.println(sal);
-			System.out.println(t);
+
 			// 부양가족수
 			switch (salary.getDependentNum()) {
 			case 1:
@@ -137,7 +131,6 @@ public class CalService {
 				incomeTax = t.getOver();
 				break;
 			}
-			System.out.println(sal);
 		}
 		int thousand[] = { 1552400, 1476570, 1245840, 1215840, 1185840, 1155840, 1125840, 1095840, 1065840, 1035840,
 				1005840 };
