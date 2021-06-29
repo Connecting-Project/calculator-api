@@ -3,6 +3,8 @@ package com.hawaiianpizza.cal.service;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +12,14 @@ import com.hawaiianpizza.cal.model.Career;
 import com.hawaiianpizza.cal.model.Salary;
 import com.hawaiianpizza.cal.model.SalaryResponse;
 import com.hawaiianpizza.cal.model.TaxTable;
-import com.hawaiianpizza.cal.dao.taxtableDao;
+import com.hawaiianpizza.cal.dao.TaxtableDao;
 
 @Service
 public class CalService {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	taxtableDao taxtabledao;
+	TaxtableDao taxtabledao;
 
 	public double standard(double fir, double sec, String oper) {
 		switch (oper) {
@@ -37,16 +40,17 @@ public class CalService {
 		default:
 			return 0.0;
 		}
-	};
-	//
+	}
 
-	public long campaign_day(Date start, int type) {
+	public long campaignDay(Date start, int type) {
 		Date now = new Date();
+		String log = Integer.toString(type);
+		logger.info(log);
 		long diffInMillies = Math.abs(now.getTime() - start.getTime());
 		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
 		return diff;
-	};
+	}
 
 	public int career(Career[] career) {
 		int ret = 0;
@@ -55,11 +59,11 @@ public class CalService {
 					- career[i].getStartMonth();
 		}
 		return ret;
-	};
+	}
 
 	public SalaryResponse salary(Salary salary) {
 		SalaryResponse sal = new SalaryResponse();
-		int money = salary.getSalary();
+		int money = salary.getGrossSalary();
 		if (salary.isYear()) {
 			money /= 12;
 		}
@@ -70,7 +74,7 @@ public class CalService {
 		} else if (money <= 320000) {
 			sal.setGukmin(0);
 		} else
-			sal.setGukmin((int) (money * 0.045));
+		{sal.setGukmin((int) (money * 0.045));}
 		// 건강보험
 		sal.setGungang((int) (money * 0.0306));
 		if (sal.getGungang() > 3523950) {
@@ -85,15 +89,15 @@ public class CalService {
 		// 소득세
 		int incomeTax = 0;
 		if (money >= 1000000 && money < 10000000) {
-			TaxTable t = new TaxTable();
+			TaxTable t;
 			if (money <= 1500000) {
 				t = taxtabledao.findByNum(money / 1000 - (money / 1000 % 5));
 			} else if (money <= 3000000) {
 
 				t = taxtabledao.findByNum(money / 1000 - (money / 1000 % 10));
-			} else
+			} else {
 				t = taxtabledao.findByNum(money / 1000 - (money / 1000 % 20));
-
+			}
 			// 부양가족수
 			switch (salary.getDependentNum()) {
 			case 1:
@@ -132,7 +136,7 @@ public class CalService {
 				break;
 			}
 		}
-		int thousand[] = { 1552400, 1476570, 1245840, 1215840, 1185840, 1155840, 1125840, 1095840, 1065840, 1035840,
+		int[] thousand = { 1552400, 1476570, 1245840, 1215840, 1185840, 1155840, 1125840, 1095840, 1065840, 1035840,
 				1005840 };
 
 		if (money == 10000000) {
@@ -196,7 +200,6 @@ public class CalService {
 		}
 		// 퇴사일이 현재날짜보다 뒤에 있을때
 		for (int i = 0; i < career.length; i++) {
-			int si = career[i].getStartMonth()+career[i].getStartYear()*12;
 			int ei = career[i].getEndMonth()+career[i].getEndYear()*12;
 			Date date = new Date();
 			if(ei > date.getMonth()+date.getYear())

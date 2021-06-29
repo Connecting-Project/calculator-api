@@ -12,5 +12,5 @@ public class Salary {
 	int nonTaxableAmount;
 	int dependentNum;
 	int childNum;
-	int salary;
+	int grossSalary;
 }

@@ -41,7 +41,7 @@ public class CalController {
 		logger.info("standard Controller");
 		HashMap<String,Object> ret = new HashMap<>();
 		try {
-			double result = calService.standard(standard.getFir_num(), standard.getSec_num(), standard.getOperator());
+			double result = calService.standard(standard.getFirNum(), standard.getSecNum(), standard.getOperator());
 			ret.put("result",result);
 			return new ResponseEntity<>(ret, HttpStatus.OK);
 		} catch (Exception e) {
@@ -63,17 +63,17 @@ public class CalController {
 			Date next = new Date(time);
 			
 
-			long day_cnt = calService.campaign_day(date, type);
-			double per_cnt = (double)day_cnt/type;
+			long dayCnt = calService.campaignDay(date, type);
+			double perCnt = (double)dayCnt/type;
 
-			day_cnt = type-day_cnt;
-			if(day_cnt<0)
-				day_cnt=0;
-			if(per_cnt>=1)
-				per_cnt = 1;
+			dayCnt = type-dayCnt;
+			if(dayCnt<0)
+				dayCnt=0;
+			if(perCnt>=1)
+				perCnt = 1;
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			ret.put("day", day_cnt);
-			ret.put("percent", per_cnt*100);
+			ret.put("day", dayCnt);
+			ret.put("percent", perCnt*100);
 			ret.put("campaign", format.format(next));
 			return new ResponseEntity<>(ret, HttpStatus.OK);
 		} catch (Exception e) {
@@ -113,7 +113,8 @@ public class CalController {
 
 			SalaryResponse m = calService.salary(salary);
 			ret.put("salary",m);
-			logger.info(String.valueOf(m));
+			String response = String.valueOf(m);
+			logger.info(response);
 			return new ResponseEntity<>(ret, HttpStatus.OK);
 		} catch (Exception e) {
 			ret.put("error",e);
