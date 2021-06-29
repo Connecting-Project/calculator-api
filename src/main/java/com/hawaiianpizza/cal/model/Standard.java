@@ -1,4 +1,4 @@
-package com.hawaiianpizza.cal.Model;
+package com.hawaiianpizza.cal.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
