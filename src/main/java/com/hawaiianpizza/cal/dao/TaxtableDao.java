@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.hawaiianpizza.cal.model.TaxTable;
 @Repository
-public interface taxtableDao extends JpaRepository<TaxTable,Object>{
+public interface TaxtableDao extends JpaRepository<TaxTable,Object>{
 	public TaxTable findByNum(int num);
 }

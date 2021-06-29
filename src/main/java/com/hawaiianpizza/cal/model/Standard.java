@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Standard {
-	double fir_num;
-	double sec_num;
+	double firNum;
+	double secNum;
 	String operator;
 }
